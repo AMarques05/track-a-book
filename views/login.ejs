@@ -3,9 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - BookNoteVault</title>
 </head>
 <body>
+    <h1>🔑 Login</h1>
     
+    <% if (typeof error !== 'undefined' && error) { %>
+        <div style="color: red; border: 1px solid red; padding: 10px; margin: 10px 0;">
+            ❌ <%= error %>
+        </div>
+    <% } %>
+    
+    <form action="/auth/login" method="POST">
+        <h3>Login Form:</h3>
+        
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <button type="submit">Login</button>
+    </form>
+    
+    <hr>
+    <p>
+        Don't have an account? 
+        <a href="/auth/register">
+            <button>Register Here</button>
+        </a>
+    </p>
+    
+    <p>
+        <a href="/">
+            <button>← Back to Home</button>
+        </a>
+    </p>
 </body>
 </html>
