@@ -32,11 +32,11 @@
         <% books.forEach(book => { %>
             <div style="border: 1px solid #ccc; margin: 10px 0; padding: 15px;">
                 <h3>📖 <%= book.title || 'Untitled' %></h3>
-                <p><strong>Authors:</strong> <%= book.authors || 'Unknown' %></p>
-                <p><strong>Published:</strong> <%= book.published_date || 'Unknown' %></p>
+                <p><strong>Authors:</strong> <%= book.author || 'Unknown' %></p>
+                <p><strong>Published:</strong> <%= book.published_at || 'Unknown' %></p>
                 
-                <% if (book.thumbnail) { %>
-                    <img src="<%= book.thumbnail %>" alt="Book cover" style="max-width: 100px; height: auto;">
+                <% if (book.cover_id) { %>
+                    <img src="<%= book.cover_id %>" alt="Book cover" style="max-width: 100px; height: auto;">
                 <% } %>
                 
                 <p><strong>Your Rating:</strong> <%= book.rating || 'Not rated' %>/10</p>

@@ -57,7 +57,7 @@ router.post('/new', async (req, res) => {
   const userId = req.session.user.id;
   try {
     const { rows } = await query(
-      'INSERT INTO books (title, authors, published_date, thumbnail, isbn_10, isbn_13, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+      'INSERT INTO books (title, author, published_at, cover_id, isbn_10, isbn_13, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
       [title, authors, publishedDate, thumbnail, isbn_10, isbn_13, userId]
     );
 

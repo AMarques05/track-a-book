@@ -11,11 +11,11 @@
     <h2>📖 Book Information (Read-Only)</h2>
     <div style="border: 1px solid #ccc; padding: 15px; background-color: #f9f9f9;">
         <h3><%= book.title || 'Untitled' %></h3>
-        <p><strong>Authors:</strong> <%= book.authors || 'Unknown' %></p>
-        <p><strong>Published:</strong> <%= book.published_date || 'Unknown' %></p>
+        <p><strong>Authors:</strong> <%= book.author || 'Unknown' %></p>
+        <p><strong>Published:</strong> <%= book.published_at || 'Unknown' %></p>
         
-        <% if (book.thumbnail) { %>
-            <img src="<%= book.thumbnail %>" alt="Book cover" style="max-width: 150px; height: auto;">
+        <% if (book.cover_id) { %>
+            <img src="<%= book.cover_id %>" alt="Book cover" style="max-width: 150px; height: auto;">
         <% } %>
         
         <p><strong>ISBN-10:</strong> <%= book.isbn_10 || 'N/A' %></p>
