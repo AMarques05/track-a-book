@@ -4,62 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Book - Track-A-Book</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h1>➕ Add New Book</h1>
-    
-    <h2>🔍 Search for Books</h2>
-    <div style="border: 1px solid #ccc; padding: 15px; margin: 10px 0;">
-        <h3>Google Books Search:</h3>
+    <div class="page-container">
+        <h1>➕ Add New Book</h1>
         
-        <label for="searchTerm">Search Term:</label><br>
-        <input type="text" id="searchTerm" placeholder="Enter book title, author, or ISBN"><br><br>
+        <h2>🔍 Search for Books</h2>
+        <div style="border: 1px solid #ccc; padding: 15px; margin: 10px 0;">
+            <h3>Google Books Search:</h3>
+            
+            <label for="searchTerm">Search Term:</label>
+            <input type="text" id="searchTerm" placeholder="Enter book title, author, or ISBN">
+            
+            <label for="condition">Search By:</label>
+            <select id="condition">
+                <option value="intitle">Title</option>
+                <option value="inauthor">Author</option>
+                <option value="isbn">ISBN</option>
+            </select>
+            
+            <button onclick="searchBooks()" class="btn btn-primary">🔍 Search Books</button>
+            
+            <div id="searchResults" style="margin-top: 20px;"></div>
+        </div>
         
-        <label for="condition">Search By:</label><br>
-        <select id="condition">
-            <option value="intitle">Title</option>
-            <option value="inauthor">Author</option>
-            <option value="isbn">ISBN</option>
-        </select><br><br>
-        
-        <button onclick="searchBooks()">🔍 Search Books</button>
-        
-        <div id="searchResults" style="margin-top: 20px;"></div>
+        <hr>
+        <p>
+            <a href="/books">
+                <button class="btn btn-secondary">← Back to My Books</button>
+            </a>
+        </p>
     </div>
-    
-    <hr>
-    
-    <h2>📝 Manual Entry</h2>
-    <form action="/books/new" method="POST" style="border: 1px solid #ccc; padding: 15px;">
-        <h3>Add Book Manually:</h3>
-        
-        <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title" required><br><br>
-        
-        <label for="authors">Authors:</label><br>
-        <input type="text" id="authors" name="authors" placeholder="e.g., Author Name"><br><br>
-        
-        <label for="publishedDate">Published Date:</label><br>
-        <input type="text" id="publishedDate" name="publishedDate" placeholder="e.g., 2023"><br><br>
-        
-        <label for="thumbnail">Cover Image URL:</label><br>
-        <input type="url" id="thumbnail" name="thumbnail" placeholder="https://..."><br><br>
-        
-        <label for="isbn_10">ISBN-10:</label><br>
-        <input type="text" id="isbn_10" name="isbn_10" placeholder="e.g., 1234567890"><br><br>
-        
-        <label for="isbn_13">ISBN-13:</label><br>
-        <input type="text" id="isbn_13" name="isbn_13" placeholder="e.g., 9781234567890"><br><br>
-        
-        <button type="submit">➕ Add Book</button>
-    </form>
-    
-    <hr>
-    <p>
-        <a href="/books">
-            <button>← Back to My Books</button>
-        </a>
-    </p>
 
     <script>
         async function searchBooks() {
@@ -103,7 +79,7 @@
                             <p><strong>Published:</strong> ${book.publishedDate}</p>
                             ${book.thumbnail ? `<img src="${book.thumbnail}" style="max-width: 80px; height: auto;">` : ''}
                             <br><br>
-                            <button onclick="addBookFromSearch('${book.title}', '${book.authors.join(', ')}', '${book.publishedDate}', '${book.thumbnail || ''}', '${book.isbn_10 || ''}', '${book.isbn_13 || ''}')">
+                            <button onclick="addBookFromSearch('${book.title}', '${book.authors.join(', ')}', '${book.publishedDate}', '${book.thumbnail || ''}', '${book.isbn_10 || ''}', '${book.isbn_13 || ''}')" class="btn btn-primary">
                                 ➕ Add This Book
                             </button>
                         </div>
@@ -119,7 +95,6 @@
         }
         
         function addBookFromSearch(title, authors, publishedDate, thumbnail, isbn_10, isbn_13) {
-            // Create and submit a form with the book data
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = '/books/new';

@@ -4,67 +4,288 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Books - Track-A-Book</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h1>📚 My Books Dashboard</h1>
-    
-    <% if (user) { %>
-        <p>Welcome back, <strong><%= user.username %></strong>!</p>
+    <div class="page-container">
+        <h1>📚 My Books Dashboard</h1>
         
-        <form action="/auth/logout" method="POST" style="display: inline;">
-            <button type="submit">Logout</button>
-        </form>
-    <% } %>
-    
-    <hr>
-    
-    <h2>📖 Your Books (<%= books.length %>)</h2>
-    
-    <a href="/books/new">
-        <button>➕ Add New Book</button>
-    </a>
-    
-    <hr>
-    
-    <% if (books.length === 0) { %>
-        <p><em>No books added yet. Start by adding your first book!</em></p>
-    <% } else { %>
-        <% books.forEach(book => { %>
-            <div style="border: 1px solid #ccc; margin: 10px 0; padding: 15px;">
-                <h3>📖 <%= book.title || 'Untitled' %></h3>
-                <p><strong>Authors:</strong> <%= book.author || 'Unknown' %></p>
-                <p><strong>Published:</strong> <%= book.published_at || 'Unknown' %></p>
-                
-                <% if (book.cover_id) { %>
-                    <img src="<%= book.cover_id %>" alt="Book cover" style="max-width: 100px; height: auto;">
+        <!-- Desktop Dashboard Layout -->
+        <div class="dashboard-desktop-layout">
+            <!-- Left Sidebar - Navigation and Controls -->
+            <div class="dashboard-sidebar">
+                <% if (user) { %>
+                    <div class="user-welcome">
+                        <p>Welcome back, <strong><%= user.username %></strong>!</p>
+                    </div>
                 <% } %>
                 
-                <p><strong>Your Rating:</strong> <%= book.rating || 'Not rated' %>/10</p>
-                <p><strong>Date Read:</strong> <%= book.date_read || 'Not set' %></p>
-                <p><strong>Your Notes:</strong> <%= book.notes || 'No notes yet' %></p>
+                <div class="dashboard-controls">
+                    <h3>📋 Dashboard Controls</h3>
+                    
+                    <a href="/books/new">
+                        <button class="btn btn-primary dashboard-btn">➕ Add New Book</button>
+                    </a>
+                    
+                    <% if (user) { %>
+                        <form action="/auth/logout" method="POST">
+                            <button type="submit" class="btn btn-secondary dashboard-btn">🚪 Logout</button>
+                        </form>
+                    <% } %>
+                </div>
                 
-                <p><strong>ISBN-10:</strong> <%= book.isbn_10 || 'N/A' %></p>
-                <p><strong>ISBN-13:</strong> <%= book.isbn_13 || 'N/A' %></p>
+                <div class="dashboard-stats">
+                    <h3>� Your Library Stats</h3>
+                    <div class="stat-item">
+                        <span class="stat-number"><%= books.length %></span>
+                        <span class="stat-label">Total Books</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number"><%= books.filter(book => book.rating).length %></span>
+                        <span class="stat-label">Books Rated</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number"><%= books.filter(book => book.date_read).length %></span>
+                        <span class="stat-label">Books Read</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Content - Books Display -->
+            <div class="dashboard-content">
+                <div class="books-header">
+                    <h2>📖 Your Books Collection</h2>
+                </div>
                 
-                <hr style="margin: 10px 0;">
-                
-                <a href="/books/edit/<%= book.id %>">
-                    <button>✏️ Edit Notes/Rating</button>
+                <div class="books-grid">
+        
+        <% if (books.length === 0) { %>
+            <p><em>No books added yet. Start by adding your first book!</em></p>
+        <% } else { %>
+            <% books.forEach(book => { %>
+                <!-- Desktop Book Card -->
+                <div class="book-card">
+                    <div class="book-card-title">📖 <%= book.title || 'Untitled' %></div>
+                    
+                    <div class="book-card-header">
+                        <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                            <% if (book.cover_id) { %>
+                                <img src="<%= book.cover_id %>" alt="Book cover" class="book-card-cover">
+                            <% } else { %>
+                                <div class="book-card-cover-placeholder">No Cover Available</div>
+                            <% } %>
+                        </div>
+                        
+                        <div class="book-card-info">
+                            <p><strong>Authors:</strong> <%= book.author || 'Unknown' %></p>
+                            <p><strong>Published:</strong> <%= book.published_at || 'Unknown' %></p>
+                            <p><strong>Your Rating:</strong> <%= book.rating || 'Not rated' %>/10</p>
+                            <p><strong>Date Read:</strong> <%= book.date_read || 'Not set' %></p>
+                            <p><strong>ISBN-10:</strong> <%= book.isbn_10 || 'N/A' %></p>
+                            <p><strong>ISBN-13:</strong> <%= book.isbn_13 || 'N/A' %></p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 10px;">
+                        <p><strong>Your Notes:</strong></p>
+                        <p style="font-style: italic; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-top: 5px; text-align: left;">
+                            <%= book.notes || 'No notes yet' %>
+                        </p>
+                    </div>
+                    
+                    <div class="book-card-actions">
+                        <a href="/books/edit/<%= book.id %>">
+                            <button class="btn btn-primary">✏️ Edit Notes/Rating</button>
+                        </a>
+                        
+                        <form action="/books/delete/<%= book.id %>" method="POST" style="display: inline;" 
+                              onsubmit="return confirm('Are you sure you want to delete this book?')">
+                            <button type="submit" style="background-color: #ff6b6b; color: white;">🗑️ Delete</button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        <% } %>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Dashboard Layout -->
+        <div class="dashboard-mobile-layout">
+            <% if (user) { %>
+                <div class="mobile-user-welcome">
+                    <p>Welcome back, <strong><%= user.username %></strong>!</p>
+                </div>
+            <% } %>
+            
+            <div class="mobile-dashboard-controls">
+                <a href="/books/new">
+                    <button class="btn btn-primary mobile-control-btn">➕ Add New Book</button>
                 </a>
                 
-                <form action="/books/delete/<%= book.id %>" method="POST" style="display: inline;" 
-                      onsubmit="return confirm('Are you sure you want to delete this book?')">
-                    <button type="submit" style="background-color: #ff6b6b; color: white;">🗑️ Delete</button>
-                </form>
+                <% if (user) { %>
+                    <form action="/auth/logout" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-secondary mobile-control-btn">🚪 Logout</button>
+                    </form>
+                <% } %>
             </div>
-        <% }) %>
-    <% } %>
-    
-    <hr>
-    <p>
-        <a href="/">
-            <button>← Back to Home</button>
-        </a>
-    </p>
+            
+            <div class="mobile-books-section">
+                <h2>📖 Your Books (<%= books.length %>)</h2>
+                
+                <% if (books.length === 0) { %>
+                    <p><em>No books added yet. Start by adding your first book!</em></p>
+                <% } else { %>
+                    <% books.forEach(book => { %>
+                        <!-- Mobile Book Card -->
+                        <div class="book-card-mobile" onclick="openBookOverlay('mobile-<%= book.id %>')">
+                            <% if (book.cover_id) { %>
+                                <img src="<%= book.cover_id %>" alt="Book cover">
+                            <% } else { %>
+                                <div style="width: 60px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; text-align: center; flex-shrink: 0;">No Cover</div>
+                            <% } %>
+                            <div class="book-card-mobile-content">
+                                <h3><%= book.title || 'Untitled' %></h3>
+                                <p><strong>By:</strong> <%= book.author || 'Unknown' %></p>
+                                <p><strong>Rating:</strong> <%= book.rating || 'Not rated' %>/10</p>
+                            </div>
+                        </div>
+
+                        <!-- Book Overlay Modal for Mobile -->
+                        <div id="overlay-mobile-<%= book.id %>" class="book-overlay" onclick="closeBookOverlay('mobile-<%= book.id %>')">
+                            <div class="book-overlay-content" onclick="event.stopPropagation()">
+
+                                <h3>📖 <%= book.title || 'Untitled' %></h3>
+                                
+                                <% if (book.cover_id) { %>
+                                    <img src="<%= book.cover_id %>" alt="Book cover">
+                                <% } %>
+
+                                <p><strong>Authors:</strong> <%= book.author || 'Unknown' %></p>
+                                <p><strong>Published:</strong> <%= book.published_at || 'Unknown' %></p>
+                                <p><strong>Your Rating:</strong> <%= book.rating || 'Not rated' %>/10</p>
+                                <p><strong>Date Read:</strong> <%= book.date_read || 'Not set' %></p>
+                                <p><strong>ISBN-10:</strong> <%= book.isbn_10 || 'N/A' %></p>
+                                <p><strong>ISBN-13:</strong> <%= book.isbn_13 || 'N/A' %></p>
+
+                                <div style="margin-top: 15px;">
+                                    <p><strong>Your Notes:</strong></p>
+                                    <p style="font-style: italic; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-top: 5px;">
+                                        <%= book.notes || 'No notes yet' %>
+                                    </p>
+                                </div>
+
+                                <div class="book-overlay-actions">
+                                    <a href="/books/edit/<%= book.id %>">
+                                        <button class="btn btn-primary">✏️ Edit Notes/Rating</button>
+                                    </a>
+                                    
+                                    <form action="/books/delete/<%= book.id %>" method="POST" style="display: inline;" 
+                                          onsubmit="return confirm('Are you sure you want to delete this book?')">
+                                        <button type="submit" style="background-color: #ff6b6b; color: white;">🗑️ Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+            
+            <div class="mobile-back-home">
+                <a href="/">
+                    <button class="btn btn-secondary">← Back to Home</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let scrollPositionBeforeOverlay = 0;
+        
+        function openBookOverlay(bookId) {
+            // Handle both desktop and mobile overlay IDs
+            let overlay = document.getElementById('overlay-' + bookId);
+            if (!overlay) {
+                overlay = document.getElementById('overlay-mobile-' + bookId);
+            }
+            
+            if (overlay) {
+                // Save current scroll position
+                scrollPositionBeforeOverlay = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // Check if we're on mobile (overlay will be visible)
+                const isMobile = window.innerWidth <= 768;
+                
+                if (isMobile) {
+                    // On mobile, scroll to top smoothly before showing overlay
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Small delay to allow smooth scroll to complete
+                    setTimeout(() => {
+                        overlay.classList.add('show');
+                        document.body.style.overflow = 'hidden';
+                    }, 300);
+                } else {
+                    // On desktop, show overlay immediately
+                    overlay.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+        }
+
+        function closeBookOverlay(bookId) {
+            // Handle both desktop and mobile overlay IDs
+            let overlay = document.getElementById('overlay-' + bookId);
+            if (!overlay) {
+                overlay = document.getElementById('overlay-mobile-' + bookId);
+            }
+            
+            if (overlay) {
+                overlay.classList.remove('show');
+                document.body.style.overflow = 'auto';
+                
+                // Check if we're on mobile and restore scroll position
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile && scrollPositionBeforeOverlay > 0) {
+                    // Small delay to allow overlay to close first
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: scrollPositionBeforeOverlay,
+                            behavior: 'smooth'
+                        });
+                    }, 100);
+                }
+            }
+        }
+
+        // Close overlay when pressing Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const overlays = document.querySelectorAll('.book-overlay.show');
+                overlays.forEach(overlay => {
+                    // Extract bookId from overlay ID, handling both desktop and mobile formats
+                    let bookId = overlay.id.replace('overlay-', '');
+                    if (bookId.startsWith('mobile-')) {
+                        bookId = bookId.replace('mobile-', '');
+                        closeBookOverlay('mobile-' + bookId);
+                    } else {
+                        closeBookOverlay(bookId);
+                    }
+                });
+            }
+        });
+
+        // Initialize overlays
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure all overlays are hidden initially
+            const overlays = document.querySelectorAll('.book-overlay');
+            overlays.forEach(overlay => {
+                overlay.classList.remove('show');
+            });
+        });
+    </script>
 </body>
 </html>

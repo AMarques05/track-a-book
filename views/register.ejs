@@ -4,43 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Track-A-Book</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h1>📝 Register</h1>
-    
-    <% if (typeof error !== 'undefined' && error) { %>
-        <div style="color: red; border: 1px solid red; padding: 10px; margin: 10px 0;">
-            ❌ <%= error %>
-        </div>
-    <% } %>
-    
-    <form action="/auth/register" method="POST">
-        <h3>Register Form:</h3>
+    <div class="page-container">
+        <h1>📝 Register</h1>
         
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div style="color: red; border: 1px solid red; padding: 10px; margin: 10px 0;">
+                ❌ <%= error %>
+            </div>
+        <% } %>
         
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
+        <form action="/auth/register" method="POST">
+            <h3>Register Form:</h3>
+            
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Register</button>
+        </form>
         
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
+        <hr>
+        <p>
+            Already have an account? 
+            <a href="/auth/login">
+                <button class="btn btn-secondary">Login Here</button>
+            </a>
+        </p>
         
-        <button type="submit">Register</button>
-    </form>
-    
-    <hr>
-    <p>
-        Already have an account? 
-        <a href="/auth/login">
-            <button>Login Here</button>
-        </a>
-    </p>
-    
-    <p>
-        <a href="/">
-            <button>← Back to Home</button>
-        </a>
-    </p>
+        <p>
+            <a href="/">
+                <button class="btn btn-secondary">← Back to Home</button>
+            </a>
+        </p>
+    </div>
 </body>
 </html>
