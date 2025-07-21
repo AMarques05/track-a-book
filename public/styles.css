@@ -1,0 +1,125 @@
+/* Hero Section Styles */
+.hero-section {
+    background: linear-gradient(135deg, var(--warm-cream) 0%, var(--parchment) 100%);
+    border-radius: 15px;
+    margin-bottom: 2rem;
+}
+
+.hero-title {
+    color: var(--deep-brown);
+    font-family: 'Georgia', serif;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.hero-description {
+    color: var(--soft-brown);
+    font-family: 'Georgia', serif;
+}
+
+.hero-image-placeholder {
+    font-size: 4rem;
+    text-align: center;
+    background: linear-gradient(135deg, var(--parchment) 0%, var(--warm-cream) 100%);
+    border-radius: 15px;
+    border: 3px solid var(--gold-accent);
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+    line-height: 1.2;
+}
+
+.hero-image-placeholder img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+}
+
+/* Features Section Styles */
+.features-section {
+    background-color: var(--warm-cream);
+    border-radius: 15px;
+    margin: 2rem 0;
+}
+
+.features-title {
+    color: var(--deep-brown);
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    text-align: center;
+    border-color: var(--gold-accent) !important;
+}
+
+.feature-card {
+    background: linear-gradient(135deg, var(--parchment) 0%, var(--warm-cream) 100%);
+    border: 2px solid var(--gold-accent);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(139, 69, 19, 0.3);
+    border-color: var(--soft-brown);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    text-align: center;
+    color: var(--soft-brown);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.feature-title {
+    color: var(--deep-brown);
+    font-family: 'Georgia', serif;
+    font-size: 1.5rem;
+}
+
+.feature-description {
+    color: var(--soft-brown);
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.feature-label {
+    background: var(--gold-accent);
+    color: var(--deep-brown);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Body background */
+body {
+    background: linear-gradient(to bottom, var(--warm-cream) 0%, var(--parchment) 100%);
+    min-height: 100vh;
+    font-family: 'Georgia', serif;
+}
+
+/* Override Bootstrap button styles to use book theme */
+.btn-primary {
+    background: linear-gradient(135deg, var(--soft-brown) 0%, var(--leather) 100%);
+    border: 2px solid var(--gold-accent);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--leather) 0%, var(--deep-brown) 100%);
+    border-color: var(--gold-accent);
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    background: transparent;
+    border: 2px solid var(--soft-brown);
+    color: var(--soft-brown);
+}
+
+.btn-outline-secondary:hover {
+    background: var(--soft-brown);
+    border-color: var(--soft-brown);
+    color: var(--warm-cream);
+}
